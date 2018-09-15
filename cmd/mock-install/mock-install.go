@@ -24,6 +24,11 @@ import "bufio"
 import "io"
 
 func main() {
+  toInstall := strings.Join(os.Args[1:], " ")
+  if toInstall == "" {
+    fmt.Printf("Usage: mock-install <something>\n")
+    os.Exit(0)
+  }
   socketPath := os.Getenv("PM_REQUEST_SOCKET")
   if socketPath == "" {
     fmt.Printf("PM_REQUEST_SOCKET environment variable not set, doing nothing\n")
@@ -35,13 +40,10 @@ func main() {
     os.Exit(1)
   }
   defer sock.Close()
-  toInstall := strings.Join(os.Args[1:], " ")
-  if toInstall != "" {
-    _, err = sock.Write([]byte("install " + toInstall + "\n"))
-    if err != nil {
-      fmt.Fprintf(os.Stderr, "Error writing PM_REQUEST_SOCKET (%v): %v\n", socketPath, err)
-      os.Exit(1)
-    }
+  _, err = sock.Write([]byte("install " + toInstall + "\n"))
+  if err != nil {
+    fmt.Fprintf(os.Stderr, "Error writing PM_REQUEST_SOCKET (%v): %v\n", socketPath, err)
+    os.Exit(1)
   }
   mockResult   := ""
   mockResponse := make([]byte, 262144)
