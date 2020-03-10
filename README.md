@@ -1,3 +1,5 @@
+This utility has been deprecated in favor of **DynamicBuildRequires** which have been successfuly integrated in rpm itself.
+
 # mock-install
 A small utility to request package installation within a [mock](https://github.com/rpm-software-management/mock) build root when using the [pm_request plugin](https://github.com/rpm-software-management/mock/wiki/Plugin-PMRequest).
 
